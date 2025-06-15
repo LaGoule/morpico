@@ -1,0 +1,23 @@
+tictactro
+
+token:
+	cercle
+	croix
+	losange (money + ox)
+	carré 
+
+outils:
+	bombe
+	marteau
+
+tuiles:
+	normal	
+	coffre
+	friable
+	portail (1/2/3)
+	brulante
+	séisme
+	
+	
+	
+
