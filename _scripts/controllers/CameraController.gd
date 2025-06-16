@@ -1,6 +1,6 @@
 extends Camera2D
 
-@onready var board = $"../Board"
+@onready var board = $"../MatchController/Board"
 
 func center_on_board():
 	var board_size = board.get_size()

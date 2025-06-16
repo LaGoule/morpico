@@ -8,18 +8,22 @@
 size = Vector2(128, 128)
 
 [node name="Cell" type="Node2D"]
+texture_filter = 1
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_ngikn")
 
 [node name="Tile" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.862745)
+modulate = Color(1, 1, 1, 0.588235)
 
 [node name="TileImage" type="Sprite2D" parent="Tile"]
 texture = ExtResource("1_wfxbd")
 
 [node name="Token" parent="." instance=ExtResource("3_g6ws7")]
+texture_filter = 1
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_wfxbd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

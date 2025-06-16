@@ -1,7 +1,7 @@
 extends Node2D
 
-const GRID_SIZE: int = 3
-const GRID_GAP: int = 5
+const GRID_SIZE: int = 5
+const GRID_GAP: int = 4
 const CELL_SIZE: int = 128
 const CELL_MID: int = CELL_SIZE / 2
 

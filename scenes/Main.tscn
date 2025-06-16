@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dwofb7dlvdedr"]
 
-[ext_resource type="Script" uid="uid://c1a156nsqrn2k" path="res://_scripts/Camera.gd" id="1_idj7w"]
+[ext_resource type="Script" uid="uid://dkul3trwhk2rf" path="res://_scripts/controllers/CameraController.gd" id="1_idj7w"]
 [ext_resource type="Script" uid="uid://cero2i3l6ll1n" path="res://_scripts/Board.gd" id="2_idj7w"]
 [ext_resource type="Script" uid="uid://bi4alj3qdpvu0" path="res://_scripts/controllers/InputController.gd" id="2_rgh2o"]
 [ext_resource type="Script" uid="uid://dx5oi1esluww3" path="res://_scripts/controllers/MatchController.gd" id="3_pbw6q"]
@@ -9,6 +9,7 @@
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(360, 240)
+limit_smoothed = true
 script = ExtResource("1_idj7w")
 
 [node name="InputController" type="Node2D" parent="."]
@@ -17,7 +18,7 @@ script = ExtResource("2_rgh2o")
 [node name="MatchController" type="Node" parent="."]
 script = ExtResource("3_pbw6q")
 
-[node name="Board" type="Node2D" parent="."]
+[node name="Board" type="Node2D" parent="MatchController"]
 script = ExtResource("2_idj7w")
 
 [node name="ResetBtn" type="Button" parent="."]
@@ -28,6 +29,6 @@ offset_bottom = 458.0
 text = "Reset"
 
 [connection signal="cell_clicked" from="InputController" to="MatchController" method="_on_cell_clicked"]
-[connection signal="board_generated" from="Board" to="Camera2D" method="_on_board_generated"]
-[connection signal="turn_played" from="Board" to="MatchController" method="_on_turn_played"]
-[connection signal="button_down" from="ResetBtn" to="Board" method="_on_reset_button_down"]
+[connection signal="board_generated" from="MatchController/Board" to="Camera2D" method="_on_board_generated"]
+[connection signal="turn_played" from="MatchController/Board" to="MatchController" method="_on_turn_played"]
+[connection signal="button_down" from="ResetBtn" to="MatchController/Board" method="_on_reset_button_down"]
