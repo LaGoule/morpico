@@ -21,6 +21,11 @@ var players_base_token: Dictionary = {
 func _ready() -> void:
 	print("C'est à " + players_name.find_key(current_player) + " de jouer.")
 
+
+func get_current_token_id() -> int:
+	return 1
+
+
 func _on_turn_played():
 	if current_player == Player.ENNEMY:
 		current_player = Player.HERO
@@ -28,4 +33,13 @@ func _on_turn_played():
 		current_player = Player.ENNEMY
 	print("C'est à " + players_name.find_key(current_player) + " de jouer.")
 	
+
+func _on_cell_clicked(selected_cell: Variant) -> void:
+	var token_type = current_player + 1
+	var cell = selected_cell
 	
+	#print("Trying to put token: " + str(token_type))
+	if cell.token_type != 0:
+		return
+		
+	cell.try_place_token(token_type);
