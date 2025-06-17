@@ -1,71 +1,93 @@
 extends Node2D
 
-const GRID_SIZE: int = 5
+const GRID_SIZE: int = 3
 const GRID_GAP: int = 4
 const CELL_SIZE: int = 128
-const CELL_MID: int = CELL_SIZE / 2
+const CELL_MID: float = float(CELL_SIZE) / 2
 
-var grid_data: Array = []
 var grid_view: Array = []
+var match_data: Node
 
-signal board_generated
-signal turn_played
-
-
-func _ready():
-	generate_board_data(GRID_SIZE)
-	generate_board_view(grid_data)
+signal board_generated()
+signal cell_clicked(coords: Vector2)
+signal animation_started(coords: Vector2)
+signal animation_finished(coords: Vector2)
 
 
-func generate_board_data(size: int = 3):
-	for y in size:
-		grid_data.append([])
-		for x in size:
-			grid_data[y].append(0)
-
-
-func generate_board_view(data: Array):
+func initialize(data: Node) -> void:
 	if !data:
-		print("Erreur: grid_data est vide.")
+		push_error("Board: match_data est vide.")
 		return
-		
-	var cell_scene = preload("res://scenes/Cell.tscn")
-	var _counter = 1
 	
-	for y in data.size():
+	match_data = data
+	grid_view.clear()
+	
+	var cell_scene: PackedScene = preload("res://scenes/Cell.tscn")
+	var counter: int = 1
+	
+	for y: int in range(match_data.grid_size):
 		grid_view.append([])
-		for x in data[y].size():
-			var cell = cell_scene.instantiate()
+		for x: int in range(match_data.grid_size):
+			var cell: Node2D = cell_scene.instantiate()
 			cell.position = Vector2(
 				x * (CELL_MID + GRID_GAP) + CELL_MID / 2, 
 				y * (CELL_MID + GRID_GAP) + CELL_MID / 2)
-			cell.cell_id = _counter
+			cell.cell_id = counter
+			cell.cell_coords = Vector2(x, y)
+
+			# Configurer la cellule avec l'état initial du jeu
+			var initial_value: int = match_data.get_cell_value(x, y)
+			if initial_value != 0:
+				cell.token_type = 0
+
 			grid_view[y].append(cell)
 			add_child(cell)
+			
 			cell.connect("token_placed", Callable(self, "_on_token_placed"))
-			_counter += 1
+			cell.connect("animation_started", Callable(self, "_on_cell_animation_started"))
+			cell.connect("animation_finished", Callable(self, "_on_cell_animation_finished"))
+			
+			counter += 1
 			
 	center_board()
 	board_generated.emit()
 
 
-func center_board():
-	var screen_size = get_viewport_rect().size
-	var board_size = get_size()
+func center_board() -> void:
+	var screen_size: Vector2 = get_viewport_rect().size
+	var board_size: Vector2 = get_size()
 	position = screen_size / 2 - board_size / 2
 
 
 func get_size() -> Vector2:
-	var width = GRID_SIZE * (CELL_MID) + (GRID_SIZE - 1) * GRID_GAP
-	var height = GRID_SIZE * (CELL_MID) + (GRID_SIZE - 1) * GRID_GAP
+	var width: float = GRID_SIZE * (CELL_MID) + (GRID_SIZE - 1) * GRID_GAP
+	var height: float = GRID_SIZE * (CELL_MID) + (GRID_SIZE - 1) * GRID_GAP
 	return Vector2(width, height)
 
 
-func _on_token_placed():
-	turn_played.emit()
+func _on_token_placed(cell_coords: Vector2) -> void:
+	emit_signal("cell_clicked", cell_coords)
+
+
+func update_cell_visual(x: int, y: int, token_type: int) -> void:
+	if x >= 0 && x < grid_view.size() && y >= 0 && y < grid_view[x].size():
+		var cell: Node2D = grid_view[y][x]
+		if cell.token_type != token_type:
+			cell.place_token(token_type)
+
+
+func update_cell(x: int, y: int, value: int) -> void:
+	update_cell_visual(x, y, value)
 
 
 func _on_reset_button_down() -> void:
-	for i in self.get_children():
-		i.reset_cell()
-	
+	for row: Array in grid_view:
+		for cell: Node2D in row:
+			cell.reset_cell()
+
+
+func _on_cell_animation_started(coords: Vector2) -> void:
+	emit_signal("animation_started", coords)
+
+func _on_cell_animation_finished(coords: Vector2) -> void:
+	emit_signal("animation_finished", coords)

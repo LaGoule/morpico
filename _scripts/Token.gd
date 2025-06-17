@@ -4,16 +4,35 @@ extends Node2D
 
 var dict_token: Dictionary = {
 	"empty" = 0,
-	"circle" = 1,
-	"cross" = 2,
+	"cross" = 1,
+	"circle" = 2,
+	"diamond" = 3,
 }
+
+var textures: Dictionary = {}
+var current_token_type: int = -1
+
+
+func _ready() -> void:
+	for token_name: String in dict_token.keys():
+		if token_name != "empty":
+			var path: String = "res://sprite/token_icon_" + token_name + ".png"
+			textures[dict_token[token_name]] = load(path)
 
 
 func change_icon(token_type: int) -> void:
-	if icon_ref.texture == load("res://sprite/token_icon_" + str(dict_token.find_key(token_type)) + ".png"):
+	if token_type == current_token_type:
 		return
-
-	var icon_word: String = dict_token.find_key(token_type)
-	var icon_path: String = "res://sprite/token_icon_" + str(icon_word) + ".png"
-	var texture: Texture2D = load(icon_path) # TODO considering preloading sprite in an array
-	icon_ref.texture = texture
+		
+	current_token_type = token_type
+	
+	if token_type == 0:
+		icon_ref.visible = false
+		return
+	else:
+		icon_ref.visible = true
+	
+	if textures.has(token_type):
+		icon_ref.texture = textures[token_type]
+	else:
+		push_warning("Token type not found in preloaded textures: " + str(token_type))
