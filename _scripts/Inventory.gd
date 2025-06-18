@@ -36,6 +36,14 @@ func initialize_inventory() -> void:
 		"count": 3,
 		"texture": preload("res://sprite/token_icon_diamond.png")
 	})
+
+	add_token({
+		"id": 4,
+		"type": "leaf",
+		"count": 1,
+		"texture": preload("res://sprite/token_icon_leaf.png")
+	})
+	
 	
 	selected_token_id = 2
 

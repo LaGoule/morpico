@@ -7,6 +7,7 @@ var dict_token: Dictionary = {
 	"cross" = 1,
 	"circle" = 2,
 	"diamond" = 3,
+	"leaf" = 4,
 }
 
 var textures: Dictionary = {}

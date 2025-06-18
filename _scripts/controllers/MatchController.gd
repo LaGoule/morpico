@@ -20,13 +20,15 @@ func start_new_match() -> void:
 	data.initialize(3)
 	
 	create_board()
+	
+	if inventory:
+		inventory.visible = false
 
 	# TODO mettre ça dans une fonction process_turn_start()
 	var initial_token: int = get_current_token()
 	emit_signal("current_token_changed", initial_token)
 	
 	emit_signal("turn_started", data.get_current_player())
-	print("nouveau match, tour de: " + str(data.current_player))
 
 
 func get_current_token() -> int:
@@ -122,10 +124,15 @@ func process_turn_end() -> void:
 	
 	if data.current_player == data.Player.HERO:
 		data.set_current_player(data.Player.ENNEMY)
+		# Cacher l'inventaire quand ce n'est pas le tour du héros
+		if inventory:
+			inventory.visible = false
 	else:
 		data.set_current_player(data.Player.HERO)
+		# Montrer l'inventaire quand c'est le tour du héros
+		if inventory:
+			inventory.visible = true
 
-	# Nouveau print au début de chaque manche du joueur
 	var token: int = get_current_token()
 
 	emit_signal("current_token_changed", token)

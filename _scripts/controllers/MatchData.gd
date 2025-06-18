@@ -7,6 +7,7 @@ enum TokenType {
 	CROSS,
 	CIRCLE,
 	DIAMOND,
+	LEAF,
 }
 enum TileType { 
 	NORMAL,
@@ -21,6 +22,7 @@ var dict_token: Dictionary = {
 	TokenType.CROSS: 1,
 	TokenType.CIRCLE: 2,
 	TokenType.DIAMOND: 3,
+	TokenType.LEAF: 4,
 }
 var dict_tile: Dictionary = {
 	TileType.NORMAL: 0,
