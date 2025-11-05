@@ -3,18 +3,10 @@
 [ext_resource type="Script" uid="uid://dkul3trwhk2rf" path="res://_scripts/controllers/CameraController.gd" id="1_idj7w"]
 [ext_resource type="Script" uid="uid://bb5nkm3qfqwvw" path="res://_scripts/controllers/GameManager.gd" id="1_vcsgt"]
 [ext_resource type="Script" uid="uid://bi4alj3qdpvu0" path="res://_scripts/controllers/InputController.gd" id="2_rgh2o"]
-[ext_resource type="Script" uid="uid://b0b3t8c5agvqu" path="res://_scripts/Inventory.gd" id="4_rarhs"]
+[ext_resource type="Script" uid="uid://dx5oi1esluww3" path="res://_scripts/controllers/MatchController.gd" id="3_pbw6q"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_vcsgt")
-
-[node name="ResetBtn" type="Button" parent="."]
-visible = false
-offset_left = 645.0
-offset_top = 427.0
-offset_right = 696.0
-offset_bottom = 458.0
-text = "Reset"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(360, 240)
@@ -24,5 +16,14 @@ script = ExtResource("1_idj7w")
 [node name="InputController" type="Node2D" parent="."]
 script = ExtResource("2_rgh2o")
 
-[node name="Inventory" type="Node2D" parent="."]
-script = ExtResource("4_rarhs")
+[node name="MatchController" type="Node" parent="."]
+script = ExtResource("3_pbw6q")
+
+[node name="ResetBtn" type="Button" parent="MatchController"]
+offset_left = 645.0
+offset_top = 427.0
+offset_right = 696.0
+offset_bottom = 458.0
+text = "Reset"
+
+[connection signal="cell_clicked" from="InputController" to="MatchController" method="_on_cell_clicked"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://brlyypewfci7m"]
+
+[ext_resource type="Script" uid="uid://dfmhxml80yjg8" path="res://_scripts/Token.gd" id="1_lm20r"]
+[ext_resource type="Texture2D" uid="uid://ca13jkh12w2iv" path="res://sprite/token_empty.png" id="2_s7tv1"]
+
+[node name="Token" type="Node2D"]
+visible = false
+script = ExtResource("1_lm20r")
+
+[node name="TokenBackground" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_s7tv1")
+
+[node name="TokenIcon" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(0.75, 0.75)

@@ -1,34 +1,29 @@
-[gd_scene load_steps=6 format=3 uid="uid://daye8ggicuqqq"]
+[gd_scene load_steps=5 format=3 uid="uid://daye8ggicuqqq"]
 
 [ext_resource type="Script" uid="uid://c84tcyxsc1wm7" path="res://_scripts/Cell.gd" id="1_ngikn"]
 [ext_resource type="Texture2D" uid="uid://dhwuoxi55tubj" path="res://sprite/tile_normal.png" id="1_wfxbd"]
-[ext_resource type="Texture2D" uid="uid://ca13jkh12w2iv" path="res://sprite/token_empty.png" id="2_ngikn"]
-[ext_resource type="Texture2D" uid="uid://drfk74v0qpf12" path="res://sprite/token_icon_circle1.png" id="3_cu71v"]
+[ext_resource type="PackedScene" uid="uid://brlyypewfci7m" path="res://scenes/Token.tscn" id="3_g6ws7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wfxbd"]
 size = Vector2(128, 128)
 
 [node name="Cell" type="Node2D"]
+texture_filter = 1
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_ngikn")
 
 [node name="Tile" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.470588)
+modulate = Color(1, 1, 1, 0.588235)
 
 [node name="TileImage" type="Sprite2D" parent="Tile"]
 texture = ExtResource("1_wfxbd")
 
-[node name="Token" type="Node2D" parent="."]
-visible = false
-scale = Vector2(0.75, 0.75)
-
-[node name="TokenBackground" type="Sprite2D" parent="Token"]
-texture = ExtResource("2_ngikn")
-
-[node name="TokenIcon" type="Sprite2D" parent="Token"]
-texture = ExtResource("3_cu71v")
+[node name="Token" parent="." instance=ExtResource("3_g6ws7")]
+texture_filter = 1
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_wfxbd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
